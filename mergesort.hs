@@ -1,4 +1,4 @@
--- Another O(N log N) sort (mergesort)
+-- mergesort
 -- a little more machinery gives us O(N log N) in all cases
 -- and it generally more efficient in Haskell's internal implementation
 
