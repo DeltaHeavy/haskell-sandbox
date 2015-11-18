@@ -1,12 +1,14 @@
 -- Quicksort
 -- O(n log n)
 --
--- Readability implementation
-quicksort :: Ord a => [a] -> [a] -- type signature (takes a list of orderables, returns a list of orderables)
-quicksort [] = [] -- case empty list, return empty list
-quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater) -- lazy evaluation O(n)
-    where lesser = filter (<= p) xs -- O(n / 2) multiplicative -> log2 n -> O(log n)
-          greater = filter (> p) xs -- O(n / 2) multiplicative -> log2 n -> O(log n)
+
+quicksort :: Ord a => [a] -> [a]        -- type signature (takes a list of orderables, returns a list of orderables)
+quicksort [] = []                       -- case empty list, return empty list
+quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
+    where lesser = filter (<= p) xs
+          greater = filter (> p) xs
+
+
 
 --
 -- listcomp implementation
