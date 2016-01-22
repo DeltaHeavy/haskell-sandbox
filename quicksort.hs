@@ -15,3 +15,21 @@ quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
 quicksort' :: Ord a => [a] -> [a]
 quicksort' [] = []
 quicksort' (p:xs) = (quicksort' [y | y <- xs, y <= p])  ++ [p] ++ (quicksort' [y | y <- xs, y > p])
+
+
+--
+-- median-of-three implementation
+-- NOTE: not done yet
+--
+median :: [Int] -> Int
+median xs = (quicksort xs) !! (length xs `div` 2)
+
+quickersort :: [Int] -> [Int]
+quickersort [] = []
+quickersort xss
+    | length xss < 3 = quicksort' xss
+    | otherwise = (quickersort lesser) ++ [p] ++ (quickersort greater) where lesser = filter (<= p) xss
+                                                                             greater = filter (> p) xss
+                                                                             p = median three
+                                                                             three = ([head xss] ++ [ xss !! midindex ] ++ [(last xss)])
+                                                                             midindex = (length xss) `div` 2
