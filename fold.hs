@@ -12,9 +12,11 @@ fact' :: (Integral a) => a -> a
 fact' n = foldl (*) 1 [2..n]
 -- fold left starting with 1
 
-fact'' :: (Integral a) => a -> a
-fact'' n = foldr1 (*) [1..n]
--- fold right from 1st
+fact'' :: (Enum a, Num a, Ord a) => a -> a
+fact'' n
+    | n <= 1 = 1
+    | otherwise = foldr1 (*) [2..n]
+-- fold right, accumulate with 1
 
 elem' :: (Eq a) => a -> [a] -> Bool
 elem' y = foldl (\acc x -> if x == y then True else acc) False
