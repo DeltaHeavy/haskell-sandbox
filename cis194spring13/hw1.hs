@@ -13,7 +13,7 @@ reverseList'' :: [a] -> [a]
 reverseList'' = reverser []
     where
         reverser acc [] = acc
-        reverser acc (x:xs) = (x:acc) xs
+        reverser acc (x:xs) = reverser (x:acc) xs
 
 -- but working through a list doing something
 -- is what fold is for, so we can do this with foldl.
@@ -34,10 +34,14 @@ reverseList' = foldl (\acc x -> x:acc) []
 reverseList :: [a] -> [a]
 reverseList = foldl (flip (:)) []
 
-toDigits :: Integer -> [Int]
+toDigitsRev :: Integer -> [Integer]
 toDigitsRev n
     | n <= 0 = []
     | otherwise = ((onesPlace n) : toDigits (div n 10))
         where onesPlace = (`mod` 10)
 
-toDigits = (reverseList (toDigitsRev))
+toDigits :: Integer -> [Integer]
+toDigits n = reverseList (toDigitsRev n)
+
+main = do
+    putStrLn $ show (toDigitsRev 1234)
