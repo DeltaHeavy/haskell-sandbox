@@ -2,6 +2,8 @@
 --
 -- Credit Card stuff :)
 
+-- Exercise 1
+
 -- This reverseList is monstrously slow due to traversing linked lists
 reverseList''' :: [a] -> [a]
 reverseList''' [] = []
@@ -34,14 +36,62 @@ reverseList' = foldl (\acc x -> x:acc) []
 reverseList :: [a] -> [a]
 reverseList = foldl (flip (:)) []
 
+-- We're going to implement this in the Rev edition
+-- because it's easier to play with linked lists :)
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev n
     | n <= 0 = []
-    | otherwise = ((onesPlace n) : toDigits (div n 10))
+    | otherwise = ((onesPlace n) : toDigitsRev (div n 10))
         where onesPlace = (`mod` 10)
 
+-- And the non-reversed one will just be the reverse of the toDigitsRev
 toDigits :: Integer -> [Integer]
 toDigits n = reverseList (toDigitsRev n)
 
+-- Exercise 2
+-- could also be done with a foldr
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther [] = []
+doubleEveryOther (x:xs)
+    | (odd (length xs)) = (2*x) : (doubleEveryOther xs)
+    | otherwise = x : (doubleEveryOther xs)
+
+-- Exercise 3
+sumDigits :: [Integer] -> Integer
+sumDigits [] = 0
+sumDigits (x:xs) = (sum (toDigits x)) + (sumDigits xs)
+
+-- Exercise 4
+validate :: Integer -> Bool
+validate x = (mod (sumDigits (doubleEveryOther (toDigits x))) 10) == 0
+
+-- Exercise 5
+type Peg = String
+type Move = (Peg, Peg)
+
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi n src targ aux
+    | n <= 0 = []
+    | otherwise = (hanoi (n-1) src aux targ) ++ [(src, targ)] ++ (hanoi (n-1) aux targ src)
+
+-- Exercise 6
+hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
+hanoi4 n src targ aux1 aux2
+    | n <= 0 = []
+    | n < 3 = hanoi n src targ aux1
+    | otherwise = 
+
+main :: IO () 
 main = do
-    putStrLn $ show (toDigitsRev 1234)
+    putStrLn $ show (toDigitsRev 1234) -- 4,3,2,1
+    putStrLn $ show (doubleEveryOther [1,2]) -- 2,2
+    putStrLn $ show (doubleEveryOther [1,2,3]) -- 1,4,3
+    putStrLn $ show (doubleEveryOther [1,2,3,4]) -- 2,2,6,4 
+    putStrLn $ show (sumDigits [16,7,12,5]) -- 22
+    putStrLn $ show (validate 4012888888881881) -- true
+    putStrLn $ show (validate 4012888888881882) -- false
+    -- it's weird, they want us to call "b" the target, whatever
+    putStrLn $ show (hanoi 1 "a" "b" "c")
+    putStrLn $ show (hanoi 2 "a" "b" "c")
+    putStrLn $ show (hanoi 3 "a" "b" "c")
+    putStrLn $ show (length (hanoi 15 "a" "b" "c")) -- 32767
