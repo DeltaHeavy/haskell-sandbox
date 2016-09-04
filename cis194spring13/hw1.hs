@@ -49,7 +49,6 @@ toDigits :: Integer -> [Integer]
 toDigits n = reverseList (toDigitsRev n)
 
 -- Exercise 2
--- could also be done with a foldr
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther [] = []
 doubleEveryOther (x:xs)
@@ -75,11 +74,18 @@ hanoi n src targ aux
     | otherwise = (hanoi (n-1) src aux targ) ++ [(src, targ)] ++ (hanoi (n-1) aux targ src)
 
 -- Exercise 6
+-- Frame-Stewart algorithm
+-- Silence "constraint defaulting" by creating a Double-y version of sqrt
+-- TODO solve this problem properly
+sqrt' :: Double -> Double
+sqrt' = sqrt
+
 hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
 hanoi4 n src targ aux1 aux2
     | n <= 0 = []
     | n < 3 = hanoi n src targ aux1
-    | otherwise = 
+    | otherwise = (hanoi4 k src aux1 aux2 targ) ++ (hanoi (n-k) src targ aux2) ++ (hanoi4 k aux1 targ aux2 src)
+    where k = n - (round (sqrt' (fromIntegral (2*n + 1)))) + 1
 
 main :: IO () 
 main = do
@@ -95,3 +101,8 @@ main = do
     putStrLn $ show (hanoi 2 "a" "b" "c")
     putStrLn $ show (hanoi 3 "a" "b" "c")
     putStrLn $ show (length (hanoi 15 "a" "b" "c")) -- 32767
+    putStrLn $ show (hanoi4 1 "a" "b" "c" "d")
+    putStrLn $ show (hanoi4 2 "a" "b" "c" "d")
+    putStrLn $ show (hanoi4 3 "a" "b" "c" "d")
+    putStrLn $ show (hanoi4 4 "a" "b" "c" "d")
+    putStrLn $ show (length (hanoi4 15 "a" "b" "c" "d")) -- 129
