@@ -56,7 +56,7 @@ hasPriority n lm = case lm of
 
 whatWentWrong :: [LogMessage] -> [String]
 whatWentWrong [] = []
-whatWentWrong lms = map show (inOrder (build (filter (\ lm -> isWarning lm) lms)))
+whatWentWrong lms = map show (inOrder (build (filter (\ lm -> isError lm && (hasPriority 50) lm) lms)))
 
 main :: IO ()
 main = do
