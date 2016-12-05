@@ -24,8 +24,8 @@ insert (Unknown _) tree = tree
 insert lm Leaf = Node Leaf lm Leaf
 insert lm@(LogMessage _ t1 _) (Node left cur@(LogMessage _ t2 _) right) =
     if t1 <= t2
-    then (Node (insert lm left) cur right)
-    else (Node left cur (insert lm right))
+    then Node (insert lm left) cur right
+    else Node left cur (insert lm right)
 insert _ _ = error "bad insert\n"
 
 build :: [LogMessage] -> MessageTree
@@ -34,11 +34,11 @@ build lms = foldl (flip insert) Leaf lms
 
 inOrder :: MessageTree -> [LogMessage]
 inOrder Leaf = []
-inOrder (Node left cur right) = (inOrder left) ++ [cur] ++ (inOrder right)
+inOrder (Node left cur right) = inOrder left ++ [cur] ++ inOrder right
 
 listShow :: [LogMessage] -> String
 listShow [] = ""
-listShow (e:es) = (show e) ++ "\n" ++ (listShow es)
+listShow (e:es) = show e ++ "\n" ++ listShow es
 
 isWarning :: LogMessage -> Bool
 isWarning (LogMessage Warning _ _) = True
@@ -51,12 +51,12 @@ isError lm = case lm of
 
 hasPriority :: Int -> LogMessage -> Bool
 hasPriority n lm = case lm of
-    (LogMessage (Error p) _ _) -> if p >= n then True else False
+    (LogMessage (Error p) _ _) -> p >= n
     _                          -> False
 
 whatWentWrong :: [LogMessage] -> [String]
 whatWentWrong [] = []
-whatWentWrong lms = map show (inOrder (build (filter (\ lm -> isError lm && (hasPriority 50) lm) lms)))
+whatWentWrong lms = map show (inOrder (build (filter (\ lm -> isError lm && hasPriority 50 lm) lms)))
 
 main :: IO ()
 main = do
