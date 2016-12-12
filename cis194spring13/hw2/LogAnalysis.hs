@@ -54,11 +54,11 @@ hasPriority n lm = case lm of
     (LogMessage (Error p) _ _) -> p >= n
     _                          -> False
 
-whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong [] = []
-whatWentWrong lms = map show (inOrder (build (filter (\ lm -> isError lm && hasPriority 50 lm) lms)))
+whatWentWrong :: [LogMessage] -> Int -> [String]
+whatWentWrong [] _ = []
+whatWentWrong lms prio = map show (inOrder (build (filter (\ lm -> isError lm && hasPriority prio lm) lms)))
 
 main :: IO ()
 main = do
-    lms <- testParse parse 10000 "error.log"
-    putStrLn $ foldl (\ acc s -> acc ++ s ++ "\n") "" (whatWentWrong lms)
+    lms <- testParse parse 10000 "error.log";
+    putStrLn $ foldl (\ acc s -> acc ++ s ++ "\n") "" (whatWentWrong lms 50)

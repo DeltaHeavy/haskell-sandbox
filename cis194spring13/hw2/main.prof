@@ -1,0 +1,44 @@
+	Sun Dec 11 17:59 2016 Time and Allocation Profiling Report  (Final)
+
+	   main +RTS -p -RTS
+
+	total time  =        0.04 secs   (37 ticks @ 1000 us, 1 processor)
+	total alloc = 113,876,392 bytes  (excludes profiling overheads)
+
+COST CENTRE     MODULE      %time %alloc
+
+parse           LogAnalysis  43.2   37.7
+testParse       Log          40.5   58.5
+parseMessage    LogAnalysis  13.5    3.2
+whatWentWrong.\ LogAnalysis   2.7    0.3
+
+
+                                                              individual     inherited
+COST CENTRE         MODULE                  no.     entries  %time %alloc   %time %alloc
+
+MAIN                MAIN                     49           0    0.0    0.0   100.0  100.0
+ CAF                LogAnalysis              97           0    0.0    0.0     0.0    0.0
+  main              LogAnalysis              98           1    0.0    0.0     0.0    0.0
+   testParse        Log                     100           1    0.0    0.0     0.0    0.0
+ CAF                Main                     96           0    0.0    0.0   100.0  100.0
+  main              LogAnalysis              99           0    0.0    0.0   100.0  100.0
+   main.\           LogAnalysis             111           9    0.0    0.2     0.0    0.2
+   whatWentWrong    LogAnalysis             102           1    0.0    0.0     2.7    0.3
+    showsPrec       Log                     112           9    0.0    0.0     0.0    0.1
+     showsPrec      Log                     113           9    0.0    0.0     0.0    0.0
+    whatWentWrong.\ LogAnalysis             106        5523    2.7    0.3     2.7    0.3
+     hasPriority    LogAnalysis             109         166    0.0    0.0     0.0    0.0
+     isError        LogAnalysis             107        5523    0.0    0.0     0.0    0.0
+    build           LogAnalysis             105           1    0.0    0.0     0.0    0.0
+     insert         LogAnalysis             110          26    0.0    0.0     0.0    0.0
+    inOrder         LogAnalysis             104          19    0.0    0.0     0.0    0.0
+   testParse        Log                     101           0   40.5   58.5    97.3   99.5
+    parse           LogAnalysis             103           1   43.2   37.7    56.8   40.9
+     parseMessage   LogAnalysis             108        5523   13.5    3.2    13.5    3.2
+ CAF                Log                      95           0    0.0    0.0     0.0    0.0
+ CAF                GHC.Conc.Signal          94           0    0.0    0.0     0.0    0.0
+ CAF                GHC.IO.Encoding          90           0    0.0    0.0     0.0    0.0
+ CAF                GHC.IO.Encoding.Iconv    89           0    0.0    0.0     0.0    0.0
+ CAF                GHC.IO.Handle.FD         83           0    0.0    0.0     0.0    0.0
+ CAF                Text.Read.Lex            72           0    0.0    0.0     0.0    0.0
+ CAF                GHC.IO.FD                67           0    0.0    0.0     0.0    0.0
