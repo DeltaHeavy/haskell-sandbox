@@ -1,2 +1,2 @@
 all:
-	ghc -Wall -Werror *.hs && rm *.hi *.o
+	ghc -Wall *.hs && rm *.hi *.o
